@@ -1,0 +1,110 @@
+{% load static %}
+{% include 'base.html' %}
+{% load auth_extras %}
+
+{% block content %}
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        <!-- Page Wrapper -->
+        <div class="page-wrapper">
+            <!-- Page Content -->
+            <div class="content container-fluid">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h3 class="page-title">Profile</h3>
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                                <li class="breadcrumb-item active">Profile</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Page Header -->
+
+                <div class="card mb-0">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="profile-view">
+                                    {% if user.is_superuser %}
+                                        <div class="profile-img-wrap">
+                                            <div class="profile-img">
+                                                <a href="#">
+                                                    <img alt="" src="{% static 'assets/img/profiles/avatar-2.png' %}"></a>
+                                            </div>
+                                        </div>
+
+                                    {% else %}
+                                        <div class="profile-img-wrap">
+                                            <div class="profile-img">
+                                                <a href="#">
+                                                    <img alt="" src="{{ user.employee.profile_pic.url }}"></a>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    <div class="profile-basic">
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                {% if request.user|has_group:"Employee" %}
+                                                <div class="profile-info-left">
+                                                    <h3 class="user-name m-t-0 mb-0">{{ user.username }}</h3>
+                                                    <div class="staff-id">Employee ID : {{ user.employee.id }}</div>
+                                                    <div class="small doj text-muted">Date of Join :- {{user.employee.date_of_join}}</div>
+{#                                                    <div class="staff-msg"><a class="btn btn-custom" href="#">Send#}
+{#                                                        Message</a></div>#}
+                                                </div>
+                                                    {% else %}
+                                                    <div class="profile-info-left">
+                                                    <h3 class="user-name m-t-0 mb-0">{{ user.username }}</h3>
+                                                    <h6 class="text-muted">Designation :- Admin</h6>
+                                                    <small class="text-muted"></small>
+                                                    <div class="staff-id">Employee ID : {{ user.id }}</div>
+                                                    <div class="small doj text-muted">Date of Join :- {{user.date_of_join}}</div>
+{#                                                    <div class="staff-msg"><a class="btn btn-custom" href="#">Send#}
+{#                                                        Message</a></div>#}
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-md-7">
+
+                                                <ul class="personal-info">
+                                                    <li>
+                                                        <div class="title">Phone:</div>
+                                                        <div class="text"><a href="">{{ user.employee.phone_no }}</a>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="title">Email:</div>
+                                                        <div class="text"><a href="">{{ user.email }}</a></div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="title">Birthday:</div>
+                                                        <div class="text">24th July</div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="title">Address:</div>
+                                                        <div class="text">{{ user.employee.address }}
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="title">Gender:</div>
+                                                        <div class="text">{{ user.employee.gender }}</div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <a href="change_password">Change Password</a>
+        </div>
+    </div>
+    <!-- /Main Wrapper -->
+{% endblock content %}
+

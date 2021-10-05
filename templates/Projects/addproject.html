@@ -1,0 +1,221 @@
+{% load static %}
+{% include 'basemodal.html' %}
+{% load auth_extras %}
+
+{% block content %}
+
+    <div class="modal-content">
+        <form method="post" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="modal-header">
+                    <h3 style="text-align: center" class="modal-title">Create Project</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group ">
+                                <label>Project Name</label>
+                                {{ form.title }}
+                                <text class="text-danger">{{ form.title.errors }}</text>
+                            </div>
+                        </div>
+                        {% if request.user|has_group:"Employee" %}
+                            <div class="col-sm-6">
+                                <div class="form-group ">
+                                    <label>Author </label>
+                                    <input name="Author" class="form-control" value="{{ request.user.employee.id }}">
+                                    <text class="text-danger">{{ form.employee.errors }}</text>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="col-sm-6">
+                                <div class="form-group ">
+                                    <label>Author </label>
+                                    {{ form.Author }}
+                                    <text class="text-danger">{{ form.Author.errors }}</text>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group ">
+                                <label>Co-Author</label>
+                                <input style="width: 367px" onclick="showCheckboxes()"
+                                       placeholder="Select Co-Author"
+                                       class="form-control multiselect form-control">
+                                <div id="checkboxes">
+                                    <label for="one"></label>
+                                    {{ form.co_author }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group ">
+                                <label>Mentor</label>
+                                {{ form.mentor }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group ">
+                        <label>Abstract</label>
+                        {{ form.abstract }}
+                        <text class="text-danger">{{ form.abstract.errors }}</text>
+                    </div>
+
+                    <div class="form-group ">
+                        <label>Keywords</label>
+                        {{ form.project_keywords }}
+                        <text class="text-danger">{{ form.project_keywords.errors }}</text>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group  invalid ">
+
+                                <label>Start Date</label>
+                                <div class="cal-icon">
+                                    {{ form.start_date }}
+                                    <text class="text-danger">{{ form.start_date.errors }}</text>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group ">
+                                <label>End Date</label>
+                                <div class="cal-icon">
+                                    {{ form.completion_date }}
+                                    <text class="text-danger">{{ form.completion_date.errors }}</text>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group ">
+                                <label>Status</label>
+                                {{ form.status }}
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group ">
+                                <label>Work Progress</label>
+                                {{ form.work_progress }}
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row file-form">
+                        <div class="col-sm-6">
+                            <div class="form-group " id="files1">
+                                <label>Images</label>
+                                {{ form2.project_images }}
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group " id="files1">
+                                <label>Upload Documents</label>
+                                {{ form3.upload_documents }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer submit-section">
+                        <button type="submit" class="btn btn-primary submit-btn">Create</button>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        var expanded = false;
+
+        function showCheckboxes() {
+            var checkboxes = document.getElementById("checkboxes");
+            if (!expanded) {
+                checkboxes.style.display = "block";
+                expanded = true;
+            } else {
+                checkboxes.style.display = "none";
+                expanded = false;
+            }
+        }
+    </script>
+
+    {#New#}
+
+    <link rel="stylesheet" href="../../static/assets/css/filesupload.css"/>
+    <script src="../../static/assets/js/filesupload.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            $("#files").kendoUpload({
+                async: {
+                    autoUpload: false,
+                    saveUrl: "http://my-app.localhost/save",
+                    removeUrl: "http://my-app.localhost/remove"
+                }
+            });
+
+            $("#removeFile").on('click', function (e) {
+                e.preventDefault();
+
+                var upload = $("#files").data("kendoUpload");
+                upload.removeFile(function (file) {
+                    switch (file[0].extension) {
+                        case '.jpg':
+                        case '.img':
+                        case '.png':
+                        case '.gif':
+                            return false;
+                        default:
+                            return true;
+                    }
+                });
+            })
+        });
+    </script>
+
+    <script>
+
+        $(document).ready(function () {
+            $("#img").kendoUpload({
+                async: {
+                    autoUpload: false,
+                    saveUrl: "http://my-app.localhost/save",
+                    removeUrl: "http://my-app.localhost/remove"
+                }
+            });
+
+            $("#removeFile2").on('click', function (e) {
+                e.preventDefault();
+
+                var upload = $("#img").data("kendoUpload");
+                upload.removeFile(function (file) {
+                    switch (file[0].extension) {
+                        case '.jpg':
+                        case '.img':
+                        case '.png':
+                        case '.gif':
+                            return false;
+                        default:
+                            return true;
+                    }
+                });
+            })
+        });
+    </script>
+
+
+{% endblock %}

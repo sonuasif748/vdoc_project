@@ -1,0 +1,501 @@
+{% include 'base.html' %}
+{% load static %}
+{% load auth_extras %}
+
+<!-- Page Wrapper -->
+<div class="page-wrapper">
+    <!-- Page Content -->
+    {% block content %}
+        <style>
+            .multiselect {
+                width: 200px;
+            }
+
+            .selectBox select {
+                width: 100%;
+                font-weight: bold;
+            }
+
+            #checkboxes {
+                display: none;
+                border: 1px #dadada solid;
+            }
+
+            #checkboxes label {
+                display: block;
+            }
+
+            #checkboxes label:hover {
+                background-color: #1e90ff;
+            }
+
+        </style>
+
+        <div class="content container-fluid">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h3 class="page-title">Projects</h3>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Projects</li>
+                        </ul>
+                    </div>
+                    <div class="col-auto float-right ml-auto">
+
+                        {#                        <a class="btn add-btn" id="add-project" data-toggle="modal">#}
+                        {#                            <i class="fa fa-plus"></i> Create Project</a>#}
+
+                        <button type="button" class="btn add-btn" data-toggle="modal" data-target="#add_project">
+                            <i class="fa fa-plus"></i> Create Project
+                        </button>
+
+                        <div class="modal bs-modal custom-modal fade" tabindex="-1" role="dialog" id="add-modal">
+                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                <div class="modal-content"></div>
+                            </div>
+                        </div>
+
+                        <div class="view-icons">
+                            <a href="{% url 'projects_cards' %}" class="grid-view btn btn-link"><i class="fa fa-th"></i></a>
+                            <a href="{% url 'projects_list' %}" class="list-view btn btn-link active"><i
+                                    class="fa fa-bars"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Page Header -->
+
+            <!-- Search Filter -->
+            <form method="get">
+                <div class="row filter-row">
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-group form-focus">
+                            <input type="text" class="form-control floating" name="title" id="id_title">
+                            <label class="focus-label">Project Name </label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-group form-focus">
+                            <input type="text" class="form-control floating" name="project_keywords"
+                                   id="id_project_keywords">
+                            <label class="focus-label">Keywords </label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-group form-focus">
+                            <label class="focus-label">Author </label>
+                            <select class="form-control floating" name="Author" id="id_Author">
+                                <option value="" selected=""></option>
+                                {% for i in empdata %}
+                                    <option value="{{ i.id }}">{{ i.user.username }}</option>
+                                {% endfor %}
+                            </select></div>
+                        <label class="focus-label"></label>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <input href="" type="submit" class="btn btn-success btn-block"/>
+                    </div>
+                </div>
+            </form>
+            <!-- /Search Filter -->
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+
+                        <table class="table table-striped custom-table datatable mb-0 datatable">
+
+                            <thead>
+
+                            <tr>
+                                <th>S No</th>
+                                <th>Project</th>
+                                <th>Mentor</th>
+                                <th>Author</th>
+                                <th>Start Date</th>
+                                <th>Completion Date</th>
+                                <th>Status</th>
+                                <th class="text-right">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for project in projects %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td><a href="{% url 'project_details' project.id %}"> {{ project.title }}</a></td>
+                                    <td>
+                                        <ul class="team-members">
+                                            <li>
+                                                <a href="#" data-toggle="tooltip" title="{{ project.mentor }}"><img
+                                                        alt=""
+                                                        src="{% static 'assets/img/profiles/avatar-2.png' %}"></a>
+                                            </li>
+                                        </ul>
+                                        {{ project.mentor }}
+                                    </td>
+                                    <td>
+                                        <ul class="team-members">
+                                            <li>
+                                                <a href="#" data-toggle="tooltip" title={{ project.Author }}><img
+                                                        class="avatar" alt=""
+                                                        src="{{ project.Author.profile_pic.url }}"></a>
+                                            </li>
+                                        </ul>
+                                        {{ project.Author }}
+                                    </td>
+                                    <td>{{ project.start_date }}</td>
+                                    <td>{{ project.completion_date }}</td>
+                                    <td>{{ project.status }}</td>
+                                    <td class="text-left">
+
+                                        <div class="dropdown dropdown-action">
+                                            <div class="modal custom-modal fade" tabindex="-1" role="dialog" id="modal">
+                                                <div class="modal-dialog modal-dialog-centered modal-lg"
+                                                     role="document">
+                                                    <div class="modal-content"></div>
+                                                </div>
+                                            </div>
+                                            <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
+                                               aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                {% if request.user.is_superuser %}
+                                                    <!-- Update project buttons -->
+                                                    <a type="button" class="update-project  bs-modal dropdown-item "
+                                                       href="{% url 'project_update' project.pk %}">
+                                                        <i class="fa fa-pencil m-r-5"></i> Edit</a>
+
+                                                    <!-- Delete project buttons -->
+                                                    <a type="button" class="delete-project bs-modal dropdown-item "
+                                                       data-toggle="modal"
+                                                       data-target="#delete_project">
+                                                        <i class="fa fa-trash-o m-r-5"></i> Delete</a>
+
+
+                                                {% elif request.user|has_group:"Employee" %}
+                                                    {% if request.user.employee == project.Author %}
+                                                        <!-- Update project buttons -->
+                                                        <a type="button" class="update-project  bs-modal dropdown-item "
+                                                           href="{% url 'project_update' project.pk %}">
+                                                            <i class="fa fa-pencil m-r-5"></i> Edit</a>
+                                                        <!-- Delete project buttons -->
+                                                        <a type="button" class="delete-project bs-modal dropdown-item "
+                                                           data-toggle="modal"
+                                                           data-target="#delete_project">
+                                                            <i class="fa fa-trash-o m-r-5"></i> Delete</a>
+
+                                                    {% else %}
+                                                        <p class="dropdown-item"><span style="color: orangered">You Don't Have Permission To Modify This</span>
+                                                        </p>
+                                                    {% endif %}
+                                                {% else %}
+                                                    <p class="dropdown-item"><span style="color: orangered">You Don't Have Permission To Modify This</span>
+                                                    </p>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <div class="modal fade" id="delete_project" data-backdrop="static" tabindex="-1"
+                                     role="dialog"
+                                     aria-labelledby="staticBackdrop" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content" style="width: 800px;right:25%;border-radius: 10px">
+                                            <div class="modal-body">
+                                                <div class="form-header">
+                                                    <h3>Delete Project</h3>
+                                                    <div class="modal-body">
+                                                        <p>Are you sure want to delete project with title
+                                                            <strong>{{ project.title }}</strong>?</p>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="modal-btn delete-action">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <a href="{% url 'delete_project' project.id %}"
+                                                                   type="button" class="btn btn-primary continue-btn">Delete
+                                                                </a>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <a href="javascript:void(0);" data-dismiss="modal"
+                                                                   class="btn btn-primary cancel-btn">Cancel</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        {#Models#}
+        {#    Add Project Modal#}
+        <div class="modal fade" id="add_project" data-backdrop="static" tabindex="-1" role="dialog"
+             aria-labelledby="staticBackdrop" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" style="width: 800px;right:25%;border-radius: 10px">
+                    <form method="post" action="add_project/" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <div class="modal-body">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h3 style="text-align: center" class="modal-title">Create Project</h3>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group ">
+                                            <label>Project Name</label>
+                                            {{ form.title }}
+                                            <text class="text-danger">{{ form.title.errors }}</text>
+                                        </div>
+                                    </div>
+                                    {% if request.user|has_group:"Employee" %}
+                                        <div class="col-sm-6">
+                                            <div class="form-group ">
+                                                <label>Author </label>
+                                                <input name="Author" class="form-control"
+                                                       value="{{ request.user.employee.id }}">
+                                                <text class="text-danger">{{ form.employee.errors }}</text>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <div class="col-sm-6">
+                                            <div class="form-group ">
+                                                <label>Author </label>
+                                                {{ form.Author }}
+                                                <text class="text-danger">{{ form.Author.errors }}</text>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group ">
+                                            <label>Co-Author</label>
+                                            <select style="width: 367px"
+                                                    class="form-control js-example-basic-multiple"
+                                                    name="co_author"
+                                                    multiple="multiple">
+                                                {% for i in empdata %}
+                                                    <option class="form-cotrol"
+                                                            value="{{ i.user.username }}">{{ i.user.username }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group ">
+                                            <label>Mentor</label>
+                                            {{ form.mentor }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group ">
+                                    <label>Abstract</label>
+                                    {{ form.abstract }}
+                                    <text class="text-danger">{{ form.abstract.errors }}</text>
+                                </div>
+
+                                <div class="form-group ">
+                                    <label>Keywords</label>
+                                    {{ form.project_keywords }}
+                                    <text class="text-danger">{{ form.project_keywords.errors }}</text>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group  invalid ">
+
+                                            <label>Start Date</label>
+                                            <div class="cal-icon">
+                                                {{ form.start_date }}
+                                                <text class="text-danger">{{ form.start_date.errors }}</text>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group ">
+                                            <label>End Date</label>
+                                            <div class="cal-icon">
+                                                {{ form.completion_date }}
+                                                <text class="text-danger">{{ form.completion_date.errors }}</text>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group ">
+                                            <label>Status</label>
+                                            {{ form.status }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group ">
+                                            <label>Work Progress</label>
+                                            {{ form.work_progress }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row file-form">
+                                    <div class="col-sm-6">
+                                        <div class="form-group ">
+                                            <label>Images</label>
+                                            {{ form2.project_images }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group ">
+                                            <label>Upload Documents</label>
+                                            {{ form3.upload_documents }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="submit-section">
+                                    <button type="submit" class="btn btn-primary submit-btn">Create</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        {#        Delete modal#}
+
+
+
+
+        <script>
+            var expanded = false;
+
+            function showCheckboxes() {
+                var checkboxes = document.getElementById("checkboxes");
+                if (!expanded) {
+                    checkboxes.style.display = "block";
+                    expanded = true;
+                } else {
+                    checkboxes.style.display = "none";
+                    expanded = false;
+                }
+            }
+        </script>
+
+        <script type="text/javascript">
+            $(function () {
+
+                // Read book buttons
+                $(".update-project").each(function () {
+                    $(this).modalForm({formURL: $(this).data("form-url")});
+
+                });
+
+                // Delete book buttons - formURL is retrieved from the data of the element
+                $(".delete-project").each(function () {
+                    $(this).modalForm({formURL: $(this).data("form-url"), isDeleteForm: true});
+
+                });
+
+                // Create book button opens form in modal with id="create-modal"
+                $("#add-project").modalForm({
+                    formURL: "{% url 'add_project' %}",
+                    modalID: "#add-modal"
+                });
+
+            });
+
+        </script>
+
+
+        {#New#}
+
+        <link rel="stylesheet" href="../../static/assets/css/filesupload.css"/>
+        <script src="../../static/assets/js/filesupload.js"></script>
+
+        <script>
+
+            $(document).ready(function () {
+                $("#files").kendoUpload({
+                    async: {
+                        autoUpload: false,
+                        saveUrl: "http://my-app.localhost/save",
+                        removeUrl: "http://my-app.localhost/remove"
+                    }
+                });
+
+                $("#removeFile").on('click', function (e) {
+                    e.preventDefault();
+
+                    var upload = $("#files").data("kendoUpload");
+                    upload.removeFile(function (file) {
+                        switch (file[0].extension) {
+                            case '.jpg':
+                            case '.img':
+                            case '.png':
+                            case '.gif':
+                                return false;
+                            default:
+                                return true;
+                        }
+                    });
+                })
+            });
+        </script>
+
+        <script>
+
+            $(document).ready(function () {
+                $("#img").kendoUpload({
+                    async: {
+                        autoUpload: false,
+                        saveUrl: "http://my-app.localhost/save",
+                        removeUrl: "http://my-app.localhost/remove"
+                    }
+                });
+
+                $("#removeFile2").on('click', function (e) {
+                    e.preventDefault();
+
+                    var upload = $("#img").data("kendoUpload");
+                    upload.removeFile(function (file) {
+                        switch (file[0].extension) {
+                            case '.jpg':
+                            case '.img':
+                            case '.png':
+                            case '.gif':
+                                return false;
+                            default:
+                                return true;
+                        }
+                    });
+                })
+            });
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                $('.js-example-basic-multiple').select2();
+            });
+        </script>
+
+    {% endblock content %}
+</div>

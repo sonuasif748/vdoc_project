@@ -1,0 +1,49 @@
+{% load static %}
+
+{% include 'basemodal.html' %}
+
+
+<!-- Main Wrapper -->
+<div class="main-wrapper">
+    <div class="account-content">
+
+        <div class="container">
+            <!-- Account Logo -->
+            <div class="account-logo">
+                <a href="/"><img src="{% static 'assets/img/logo.png' %}" width="50" height="50" alt="V-Group"></a>
+            </div>
+            {% if messages %}
+                {% for i in messages %}
+                    <h1 style="background: green">{{ i }}</h1>
+                {% endfor %}
+            {% endif %}
+            <!-- /Account Logo -->
+
+            <div class="account-box">
+                <div class="account-wrapper">
+                    <h3 class="account-title">Employee Registration Request</h3>
+                    <p class="account-subtitle">Access to V-Doc's</p>
+
+                    <!-- Account Form -->
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        {{ form2.as_p }}
+                        <button class="btn btn-primary account-btn" type="submit">Request</button>
+                        <div style="margin-left: 365px">
+                            <a class="text-muted" href="/login_page">
+                                Login
+                            </a>
+                        </div>
+                    </form>
+                    <!-- /Account Form -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Main Wrapper -->
+
+
+

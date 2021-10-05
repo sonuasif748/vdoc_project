@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load auth_extras %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <meta name="description" content="VDocs - Bootstrap Admin Template">
+    <meta name="keywords"
+          content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern, accounts, invoice, html5, responsive, CRM, Projects">
+    <meta name="author" content="V-Group - Repository Admin Template">
+    <meta name="robots" content="noindex, nofollow">
+    <title>V-Docs</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/favicon.png' %}">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/font-awesome.min.css' %}">
+    <!-- Select2 CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/select2.min.css' %}">
+    <!-- Datetimepicker CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap-datetimepicker.min.css' %}">
+    <!-- Lineawesome CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/line-awesome.min.css' %}">
+    <!-- Summernote CSS -->
+    <link rel="stylesheet" href="{% static 'assets/plugins/summernote/dist/summernote-bs4.css' %}">
+    <!-- Chart CSS -->
+    <link rel="stylesheet" href="{% static 'assets/plugins/morris/morris.css' %}">
+    <!-- Datatable CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/dataTables.bootstrap4.min.css' %}">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="{% static 'assets/js/html5shiv.min.js' %}"></script>
+    <script src="{% static 'assets/js/respond.min.js' %}"></script>
+    <![endif]-->
+</head>
+
+<body>
+<!-- Main Wrapper -->
+<div class="main-wrapper">
+    <!-- Header -->
+    <div class="header">
+        <!-- Logo -->
+        <div class="header-left">
+            <div href="" class="logo">
+
+                <a href="{% url 'projects_list' %}"><img src="{% static 'assets/img/logo.png' %}" width="60"
+                                                         height="40"
+                                                         alt=""></a>
+
+
+            </div>
+        </div>
+        <!-- /Logo -->
+
+        <!-- Header Title -->
+        <div class="page-title-box" style="font-weight: bold">
+            <h3>V-Doc's</h3>
+        </div>
+        <!-- /Header Title -->
+
+        <!-- Header Menu -->
+        <ul class="nav user-menu">
+            {% if user.is_superuser %}
+                <!-- Dashboard -->
+{#                <li class="nav-item dropdown">#}
+{#                    <a href="/dashboard" class="" data-toggle="">#}
+{#                        <i class="fa fa-user-circle-o"></i> <span class="badge badge-pill">Dashboard</span>#}
+{#                    </a>#}
+{#                </li>#}
+                <!-- Dashboard -->
+                <!-- Employees -->
+                <li class="nav-item dropdown">
+                    <a href="{% url 'Employee_list_page' %}" class="" data-toggle="">
+                        <i class="fa fa-user-circle-o"></i> <span class="badge badge-pill">Employee</span>
+                    </a>
+                </li>
+                <!-- /Employees -->
+
+            {% endif %}
+            <li class="nav-item dropdown has-arrow main-drop">
+                <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+							<span class="user-img">
+                                    {% if request.user|has_group:"Employee" %}
+                                        <img class="avatar" src="{{ user.employee.profile_pic.url }}" alt="">
+                                        {{ user.username }}
+                                        <span class="text-muted"
+                                              style="font-size: 10px;font-weight: bold;">Employee</span>
+                                    {% else %}
+                                        <img src="{% static 'assets/img/profiles/avatar-1.png' %}" alt="">
+                                        {{ user.username }}
+                                        <span class="text-muted" style="font-size: 10px;font-weight: bold;">Admin</span>
+                                    {% endif %}
+                                </span>
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'proofile_page' %}">My Profile</a>
+                    <a class="dropdown-item" href="{% url 'logout_user' %}">Logout</a>
+                </div>
+            </li>
+        </ul>
+        <!-- /Header Menu -->
+
+        <!-- Mobile Menu -->
+        <div class="dropdown mobile-user-menu">
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                <i class="fa fa-ellipsis-v"></i></a>
+            <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="{% url 'proofile_page' %}">My Profile</a>
+                <a class="dropdown-item" href="{% url 'logout_user' %}">Logout</a>
+            </div>
+        </div>
+        <!-- /Mobile Menu -->
+    </div>
+    <!-- /Header -->
+    <!-- Page Content -->
+    <div class="content container-fluid">
+        {% block content %}
+
+        {% endblock content %}
+    </div>
+    <!-- /Page Content -->
+</div>
+<!-- /Main Wrapper -->
+
+<!-- jQuery -->
+<script src="{% static 'assets/js/jquery-3.5.1.min.js' %}"></script>
+<!-- Bootstrap Core JS -->
+<script src="{% static 'assets/js/popper.min.js' %}"></script>
+<script src="{% static 'assets/js/bootstrap.js' %}"></script>
+<!-- Slimscroll JS -->
+<script src="{% static 'assets/js/jquery.slimscroll.min.js' %}"></script>
+<!-- Chart JS -->
+<script src="{% static 'assets/plugins/morris/morris.min.js' %}"></script>
+<script src="{% static 'assets/plugins/raphael/raphael.min.js' %}"></script>
+<script src="{% static 'assets/js/chart.js' %}"></script>
+<!-- Select2 JS -->
+<script src="{% static 'assets/js/select2.min.js' %}"></script>
+<!-- Datetimepicker JS -->
+<script src="{% static 'assets/js/moment.min.js' %}"></script>
+<script src="{% static 'assets/js/bootstrap-datetimepicker.min.js' %}"></script>
+<!-- Custom JS -->
+<script src="{% static 'assets/js/app.js' %}"></script>
+<!-- Datatable JS -->
+<script src="{% static 'assets/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'assets/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+<script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
+<!-- Summernote JS -->
+<script src="{% static 'assets/plugins/summernote/dist/summernote-bs4.min.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+{% include 'base.html' %}
+{% load static %}
+{% load auth_extras %}
+
+{% block content %}
+    <!-- Page Wrapper -->
+    <div class="page-wrapper">
+    <!-- Page Content -->
+    <div class="content container-fluid">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Users</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Employee's List</li>
+                    </ul>
+                </div>
+                <div class="col-auto float-right ml-auto">
+                    <a href="{% url 'Employee_reg' %}" class="btn add-btn bs-modal">
+                        <i class="fa fa-plus"></i> Create Employee</a>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+
+        <!-- Search Filter -->
+        <form method="get">
+            <div class="row filter-row">
+                <div class="col-sm-6 col-md-3">
+                    <div class="form-group form-focus">
+                        <input type="text" class="form-control floating" name="id">
+                        <label class="focus-label">Employee Id </label>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <div class="form-group form-focus">
+                        <input type="text" class="form-control floating" name="phone_no">
+                        <label class="focus-label">Mobile Number </label>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <div class="form-group form-focus">
+                        <input type="text" class="form-control floating" name="date_of_join">
+                        <label class="focus-label">Date of join </label>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3 ml-auto">
+                    <input href="" type="submit" class="btn btn-success btn-block"/>
+                </div>
+            </div>
+        </form>
+        <!-- /Search Filter -->
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-striped custom-table datatable mb-0 datatable text-center">
+                        <thead>
+                        <tr>
+                            <th>S.No.</th>
+                            <th>Employee Id</th>
+                            <th>Profile Picture</th>
+                            <th>Employee Name</th>
+                            <th>Email</th>
+                            <th>MobileNo.</th>
+                            <th>Date Of Join</th>
+                            {% if user.is_superuser %}
+                            <th>Status</th>
+                            {% endif %}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for A in employee %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ A.user.id }}</td>
+                                <td><img src="{{ A.profile_pic.url }}"
+                                         style="width: 50px;height: 50px;border-radius: 100px"></td>
+                                <td>{{ A.user.username }}</td>
+                                <td>{{ A.user.email }}</td>
+                                <td>{{ A.phone_no }}</td>
+                                <td>{{ A.date_of_join }}</td>
+                            {% if user.is_superuser %}
+                                {% if A.user.is_active == False %}
+                                    <td><a style="color: red" href="/update_status/1/{{ A.user.id }}">Inactive</a></td>
+                                {% else %}
+                                    <td><a style="color: #0ba408" href="/update_status/0/{{ A.user.id }}">Active</a></td>
+                                {% endif %}
+                            {% endif %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Page Content -->
+{% endblock content %}
+<script type="text/javascript">
+    $(function () {
+
+        // Read book buttons
+        $(".update-project").each(function () {
+            $(this).modalForm({formURL: $(this).data("form-url")});
+
+        });
+
+        // Delete book buttons - formURL is retrieved from the data of the element
+        $(".delete-project").each(function () {
+            $(this).modalForm({formURL: $(this).data("form-url"), isDeleteForm: true});
+
+        });
+
+        // Create book button opens form in modal with id="create-modal"
+        $("#add-project").modalForm({
+            formURL: "{% url 'add_project' %}",
+            modalID: "#add-modal"
+        });
+
+    });
+
+
+</script>
+
+</div>
+<!-- /Page Wrapper -->
