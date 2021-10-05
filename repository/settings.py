@@ -84,23 +84,23 @@ WSGI_APPLICATION = 'repository.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'vdoc_project',
-        'USER': 'vdoc',
-        'PASSWORD': 'vdoc',
-        'HOST': 'localhost',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'vdoc_project',
+#         'USER': 'vdoc',
+#         'PASSWORD': 'vdoc',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
 
 
 # Password validation
@@ -146,7 +146,7 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
     '/var/www/static/',
 ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 MEDIA_ROOT =os.path.join(BASE_DIR,'media')
 MEDIA_URL = '/media/'
 
