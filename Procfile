@@ -1,1 +1,1 @@
-web: waitress-serve --port=$8000 repository.wsgi:application
+web: gunicorn projectname.wsgi --log-file -
