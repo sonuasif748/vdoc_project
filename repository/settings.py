@@ -24,10 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-(%n7#4^--@jkorv#2me#2%$2=fsrvmdc*h-fue%5y4%2ch25j4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
-    'vdocproject.herokuapp.com'
+    'vdocpro.herokuapp.com', 'localhost'
 ]
 
 
