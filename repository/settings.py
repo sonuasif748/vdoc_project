@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-(%n7#4^--@jkorv#2me#2%$2=fsrvmdc*h-fue%5y4%2ch25j4
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    'vdocproject.herokuapp.com', 'localhost'
+    'vdocproject.herokuapp.com', 'localhost', '127.0.0.1'
 ]
 
 
