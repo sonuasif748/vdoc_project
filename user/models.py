@@ -10,7 +10,7 @@ gender_choices=[('male','male'),('female','female'),('others','others')]
 class Employee(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     phone_no = models.BigIntegerField()
-    profile_pic = models.ImageField(upload_to='Users/Profile_pictures')
+    profile_pic = models.ImageField(upload_to='Users/Profile_pictures',null=True,blank=True)
     gender = models.CharField(max_length=6, choices=gender_choices)
     address = models.TextField()
     date_of_join = models.DateTimeField(default=datetime.now())

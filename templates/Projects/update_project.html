@@ -4,7 +4,7 @@
 <div class="page-wrapper">
 
     {% block content %}
-        <div class="modal-content container mt-4 mb-3" style="width: 900px;border-radius: 10px;">
+        <div class="modal-content container mt-4 mb-3" style="border-radius: 10px;">
             <form method="post" action="" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="form-group">
@@ -173,8 +173,8 @@
                         </div>
 
                         <div style="justify-content: center" class="row">
-                            <button href="/Homepage" class="btn btn-primary submit-btn">Back</button>
-                            <button type="submit" class="btn btn-primary submit-btn">Update</button>
+                            <span><button href="/Homepage" class="btn btn-primary submit-btn">Back</button></span>
+                            <span><button type="submit" class="btn btn-primary submit-btn">Update</button></span>
                         </div>
 
                     </div>
