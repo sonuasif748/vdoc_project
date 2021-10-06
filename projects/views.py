@@ -120,6 +120,9 @@ class Projects_list_view(LoginRequiredMixin, ListView):
 # Projects CARDS VIEW
 class Projects_Card_View(LoginRequiredMixin, ListView):
     model = Projects
+    form_class = AddprojectModelForm
+    second_form_class = ProjectImageForm
+    third_form_class = ProjectFilesForm
     template_name = 'Projects/Projects_cards_view.html'
     context_object_name = 'projects'
     success_url = reverse_lazy('projects_cards')
@@ -131,6 +134,12 @@ class Projects_Card_View(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        if 'form' not in context:
+            context['form'] = self.form_class()
+        if 'form2' not in context:
+            context['form2'] = self.second_form_class()
+        if 'form3' not in context:
+            context['form3'] = self.third_form_class()
         queryset = self.get_queryset()
         filter = Filterss(self.request.GET, queryset)
         model2 = Employee.objects.all()

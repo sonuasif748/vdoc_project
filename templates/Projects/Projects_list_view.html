@@ -241,18 +241,17 @@
 
         {#Models#}
         {#    Add Project Modal#}
-        <div class="modal fade" id="add_project" data-backdrop="static" tabindex="-1" role="dialog"
-             aria-labelledby="staticBackdrop" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+        <div id="add_project" class="modal custom-modal fade" role="dialog">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content" style="border-radius: 10px">
                     <form method="post" action="add_project/" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="form-group">
-                            <div class="modal-body">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Create Project</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
-                                <h3 style="text-align: center" class="modal-title">Create Project</h3>
                             </div>
                             <div class="modal-body">
                                 <div class="row">
@@ -283,12 +282,11 @@
                                     {% endif %}
                                 </div>
 
-
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group ">
                                             <label>Co-Author</label>
-                                            <select style="width: 367px"
+                                            <select style="width: 100%"
                                                     class="form-control js-example-basic-multiple"
                                                     name="co_author"
                                                     multiple="multiple">

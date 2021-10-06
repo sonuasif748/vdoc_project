@@ -42,9 +42,10 @@
                         </ul>
                     </div>
                     <div class="col-auto float-right ml-auto">
-                        <a href="" class="btn add-btn" id="add-project" data-toggle="modal">
-                            <i class="fa fa-plus"></i> Create Project</a>
-                        <div class="modal custom-modal fade" tabindex="-1" role="dialog" id="add-modal">
+                        <button type="button" class="btn add-btn" data-toggle="modal" data-target="#add_project">
+                            <i class="fa fa-plus"></i> Create Project
+                        </button>
+                        <div class="modal bs-modal custom-modal fade" tabindex="-1" role="dialog" id="add-modal">
                             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                 <div class="modal-content"></div>
                             </div>
@@ -113,9 +114,9 @@
                                                     <i class="fa fa-pencil m-r-5"></i> Edit</a>
                                                 <!-- Delete project buttons -->
                                                 <a type="button" class="delete-project bs-modal dropdown-item "
-                                                       data-toggle="modal"
-                                                       data-target="#delete_project">
-                                                        <i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                                                   data-toggle="modal"
+                                                   data-target="#delete_project">
+                                                    <i class="fa fa-trash-o m-r-5"></i> Delete</a>
                                             {% elif request.user|has_group:"Employee" %}
                                                 {% if request.user.employee == project.Author %}
                                                     <!-- Update project buttons -->
@@ -209,18 +210,17 @@
         </div>
         {#Models#}
         {#    Add Project Modal#}
-        <div class="modal fade" id="add_project" data-backdrop="static" tabindex="-1" role="dialog"
-             aria-labelledby="staticBackdrop" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content" style="width: 800px;right:25%;border-radius: 10px">
+        <div id="add_project" class="modal custom-modal fade" role="dialog">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content" style="border-radius: 10px">
                     <form method="post" action="add_project/" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="form-group">
-                            <div class="modal-body">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Create Project</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
-                                <h3 style="text-align: center" class="modal-title">Create Project</h3>
                             </div>
                             <div class="modal-body">
                                 <div class="row">
@@ -251,18 +251,19 @@
                                     {% endif %}
                                 </div>
 
-
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group ">
                                             <label>Co-Author</label>
-                                            <input style="width: 367px" onclick="showCheckboxes()"
-                                                   placeholder="Select Co-Author"
-                                                   class="form-control multiselect form-control">
-                                            <div id="checkboxes">
-                                                <label for="one"></label>
-                                                {{ form.co_author }}
-                                            </div>
+                                            <select style="width: 100%"
+                                                    class="form-control js-example-basic-multiple"
+                                                    name="co_author"
+                                                    multiple="multiple">
+                                                {% for i in empdata %}
+                                                    <option class="form-cotrol"
+                                                            value="{{ i.user.username }}">{{ i.user.username }}</option>
+                                                {% endfor %}
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
@@ -324,13 +325,13 @@
 
                                 <div class="row file-form">
                                     <div class="col-sm-6">
-                                        <div class="form-group " id="files1">
+                                        <div class="form-group ">
                                             <label>Images</label>
                                             {{ form2.project_images }}
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
-                                        <div class="form-group " id="files1">
+                                        <div class="form-group ">
                                             <label>Upload Documents</label>
                                             {{ form3.upload_documents }}
                                         </div>
