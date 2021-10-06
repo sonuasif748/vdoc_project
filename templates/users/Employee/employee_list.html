@@ -67,7 +67,7 @@
                             <th>MobileNo.</th>
                             <th>Date Of Join</th>
                             {% if user.is_superuser %}
-                            <th>Status</th>
+                                <th>Status</th>
                             {% endif %}
                         </tr>
                         </thead>
@@ -76,24 +76,45 @@
                             <tr>
                                 <td>{{ forloop.counter }}</td>
                                 <td>{{ a.user.id }}</td>
-                            {% if a.profile_pic %}
-                                <td><img src="{{ a.profile_pic.url }}"
-                                         style="width: 50px;height: 50px;border-radius: 100px"></td>
+                                {% if a.profile_pic %}
+                                    <td><img src="{{ a.profile_pic.url }}"
+                                             style="width: 50px;height: 50px;border-radius: 100px"></td>
                                 {% else %}
-                                <td><img src="{% static 'assets/img/profiles/avatar-1.png' %}"
-                                         style="width: 50px;height: 50px;border-radius: 100px"></td>
-                            {% endif %}
+                                    <td><img src="{% static 'assets/img/profiles/avatar-1.png' %}"
+                                             style="width: 50px;height: 50px;border-radius: 100px"></td>
+                                {% endif %}
                                 <td>{{ a.user.username }}</td>
                                 <td>{{ a.user.email }}</td>
                                 <td>{{ a.phone_no }}</td>
                                 <td>{{ a.date_of_join }}</td>
-                            {% if user.is_superuser %}
-                                {% if a.user.is_active == False %}
-                                    <td><a style="color: red" href="/update_status/1/{{ a.user.id }}">Inactive</a></td>
-                                {% else %}
-                                    <td><a style="color: #0ba408" href="/update_status/0/{{ a.user.id }}">Active</a></td>
+                                {% if user.is_superuser %}
+                                    <td>
+                                        <div class="dropdown">
+                                            {% if a.user.is_active == True %}
+                                                <a href="" class="btn btn-white btn-sm btn-rounded dropdown-toggle"
+                                                   style="color: #0ba408" data-toggle="dropdown" aria-expanded="false">Active</a>
+                                            {% else %}
+                                                <a href="" class="btn btn-white btn-sm btn-rounded dropdown-toggle"
+                                                   style="color: red" data-toggle="dropdown" aria-expanded="false">Inactive</a>
+                                            {% endif %}
+                                            <div class="dropdown-menu">
+                                                <a style="color: #0ba408" class="dropdown-item"
+                                                   href="/update_status/1/{{ a.user.id }}">Active</a>
+                                                <a style="color: red" class="dropdown-item"
+                                                   href="/update_status/0/{{ a.user.id }}">Inactive</a>
+                                            </div>
+                                        </div>
+                                    </td>
                                 {% endif %}
-                            {% endif %}
+                                {#                                {% if user.is_superuser %}#}
+                                {#                                    {% if a.user.is_active == False %}#}
+                                {#                                        <td><a style="color: red" href="/update_status/1/{{ a.user.id }}">Inactive</a>#}
+                                {#                                        </td>#}
+                                {#                                    {% else %}#}
+                                {#                                        <td><a style="color: #0ba408" href="/update_status/0/{{ a.user.id }}">Active</a>#}
+                                {#                                        </td>#}
+                                {#                                    {% endif %}#}
+                                {#                                {% endif %}#}
                             </tr>
                         {% endfor %}
                         </tbody>
