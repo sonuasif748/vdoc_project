@@ -101,7 +101,7 @@
                                         <div class="col-md-3 col-sm-4 col-lg-4 col-xl-3">
                                             <div class="uploaded-box">
                                                 <div class="uploaded-img">
-                                                    <img src="{{ i.project_images }}" class="img-fluid" alt="">
+                                                    <img src="{{ i.project_images.url }}" class="img-fluid" alt="">
                                                 </div>
                                             </div>
                                         </div>
@@ -121,14 +121,14 @@
                                         <li>
                                             <div class="files-cont">
                                                 <div class="file-type">
-                                                    {#                                                    {{ i.cover.url }}#}
+                                                    {#                                                    {{ i.cover }}#}
                                                     <span class="files-icon"><img src=""
                                                                                   style="width: 100%"
                                                                                   class="fa fa-file-pdf-o"></span>
                                                 </div>
                                                 <div class="files-info">
                                                 <span class="file-name text-ellipsis"><a target="_blank"
-                                                                                         href="{{ i.upload_documents }}">{{ i.upload_documents }}</a></span>
+                                                                                         href="{{ i.upload_documents.url }}">{{ i.upload_documents }}</a></span>
                                                     <span class="file-author"><a
                                                             href="#">{{ projects.Author }}</a></span>
                                                     <span
@@ -205,7 +205,7 @@
                     {% if request.user.is_superuser %}
                         <div class="card project-user">
                             <div class="card-body">
-                                <h6 class="card-title m-b-20">Assigned Leader
+                                <h6 class="card-title m-b-20">Assigned Co-Author
                                     <button type="button" class="float-right btn btn-primary btn-sm" data-toggle="modal"
                                             data-target="#assign_leader"><i class="fa fa-plus"></i> Add
                                     </button>

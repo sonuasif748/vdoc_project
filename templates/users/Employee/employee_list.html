@@ -72,21 +72,21 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for A in employee %}
+                        {% for a in employee %}
                             <tr>
                                 <td>{{ forloop.counter }}</td>
-                                <td>{{ A.user.id }}</td>
-                                <td><img src="{{ A.profile_pic.url }}"
+                                <td>{{ a.user.id }}</td>
+                                <td><img src="{{ a.profile_pic }}"
                                          style="width: 50px;height: 50px;border-radius: 100px"></td>
-                                <td>{{ A.user.username }}</td>
-                                <td>{{ A.user.email }}</td>
-                                <td>{{ A.phone_no }}</td>
-                                <td>{{ A.date_of_join }}</td>
+                                <td>{{ a.user.username }}</td>
+                                <td>{{ a.user.email }}</td>
+                                <td>{{ a.phone_no }}</td>
+                                <td>{{ a.date_of_join }}</td>
                             {% if user.is_superuser %}
-                                {% if A.user.is_active == False %}
-                                    <td><a style="color: red" href="/update_status/1/{{ A.user.id }}">Inactive</a></td>
+                                {% if a.user.is_active == False %}
+                                    <td><a style="color: red" href="/update_status/1/{{ a.user.id }}">Inactive</a></td>
                                 {% else %}
-                                    <td><a style="color: #0ba408" href="/update_status/0/{{ A.user.id }}">Active</a></td>
+                                    <td><a style="color: #0ba408" href="/update_status/0/{{ a.user.id }}">Active</a></td>
                                 {% endif %}
                             {% endif %}
                             </tr>
