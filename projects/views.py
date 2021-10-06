@@ -158,12 +158,13 @@ def ProjectDetailView(request, id):
     data2 = Project_Images.objects.filter(project_img=data1)
     data3 = Project_Files.objects.filter(project=data1)
     data4 = assigneform(instance=data1)
+    data5 = Employee.objects.all()
     if request.method == "POST":
         data = assigneform(request.POST, instance=data1)
         data.save()
         return HttpResponseRedirect(reverse('project_details', args=[id]))
     return render(request, 'Projects/Project_detail_view.html',
-                  {'projects': data1, 'form2': data2, 'form3': data3, 'form4': data4})
+                  {'projects': data1, 'form2': data2, 'form3': data3, 'form4': data4,'empdata':data5})
 
 
 # POST NEW PROJECT
@@ -199,6 +200,7 @@ def Add_Project_View(request):
 # Update PROJECT
 @login_required(login_url='login_page')
 def ProjectUpdateView(request, id):
+    data = Employee.objects.all()
     update_project = Projects.objects.get(pk=id)
     projectview = AddprojectModelForm(instance=update_project)
     Images_Project = Project_Images.objects.filter(project_img=update_project)
@@ -241,7 +243,7 @@ def ProjectUpdateView(request, id):
                 return redirect('projects_list')
     return render(request, 'Projects/update_project.html',
                   {'form': projectview, 'form2': Images_Project, 'form3': Files_Project, 'addimg': addimages,
-                   'addfile': addfiles})
+                   'addfile': addfiles,'empdata':data})
 
 
 @login_required(login_url='login_page')
