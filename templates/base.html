@@ -85,7 +85,7 @@
                 <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
 							<span class="user-img">
                                     {% if request.user|has_group:"Employee" %}
-                                        <img class="avatar" src="{{ user.employee.profile_pic.url }}" alt="">
+                                        <img class="avatar" src="{{ user.employee.profile_pic }}" alt="">
                                         {{ user.username }}
                                         <span class="text-muted"
                                               style="font-size: 10px;font-weight: bold;">Employee</span>
