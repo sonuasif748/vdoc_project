@@ -164,7 +164,7 @@ GS_PROJECT_ID = 'magnetic-runway-328306'
 GS_BUCKET_NAME = 'vdocproject'
 MEDIA_ROOT = "media/"
 UPLOAD_ROOT = 'media/uploads/'
-MEDIA_URL = 'https://storage.googleapis.com/{}/'.format(GS_BUCKET_NAME)
+MEDIA_URL = 'https://storage.cloud.google.com/{}/'.format(GS_BUCKET_NAME)
 
 
 # Default primary key field type
@@ -181,3 +181,6 @@ EMAIL_PORT = '587'
 EMAIL_HOST_USER = 'asif.md@finnovo.io'
 EMAIL_HOST_PASSWORD = 'asifshafi'
 EMAIL_USE_TLS = True
+
+# https://storage.cloud.google.com/vdocproject/docs/demoo%20gc/images/pexels-pixabay-460621_-_Copy.jpg
+# https://storage.googleapis.com/vdocproject/docs/demoo%20gc/images/pexels-pixabay-460621_-_Copy.jpg
