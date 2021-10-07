@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-(%n7#4^--@jkorv#2me#2%$2=fsrvmdc*h-fue%5y4%2ch25j4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'vdocproject.herokuapp.com', 'localhost', '127.0.0.1'
@@ -143,13 +143,29 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-# STATICFILES_DIRS = [
-#     BASE_DIR / "static",
-#     '/var/www/static/',
-# ]
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    '/var/www/static/',
+]
+
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Media files in google cloud
+from google.oauth2 import service_account
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+    os.path.join(BASE_DIR,'credential.json')
+)
+
+###configuration for media file storing and reriving media file from gcloud
+DEFAULT_FILE_STORAGE = 'repository.gcloud.GoogleCloudMediaFileStorage'
+GS_PROJECT_ID = 'magnetic-runway-328306'
+GS_BUCKET_NAME = 'vdocproject'
+MEDIA_ROOT = "media/"
+UPLOAD_ROOT = 'media/uploads/'
+MEDIA_URL = 'https://storage.googleapis.com/{}/'.format(GS_BUCKET_NAME)
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
