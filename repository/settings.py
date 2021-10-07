@@ -91,6 +91,10 @@ DATABASES = {
     }
 }
 
+import dj_database_url
+db_from_env =dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -181,6 +185,3 @@ EMAIL_PORT = '587'
 EMAIL_HOST_USER = 'asif.md@finnovo.io'
 EMAIL_HOST_PASSWORD = 'asifshafi'
 EMAIL_USE_TLS = True
-
-# https://storage.cloud.google.com/vdocproject/docs/demoo%20gc/images/pexels-pixabay-460621_-_Copy.jpg
-# https://storage.googleapis.com/vdocproject/docs/demoo%20gc/images/pexels-pixabay-460621_-_Copy.jpg
