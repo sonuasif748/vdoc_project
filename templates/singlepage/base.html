@@ -68,7 +68,7 @@
                 </a>
                 <div class="dropdown-menu">
                     {% if user.is_superuser %}
-                        <a class="dropdown-item" onclick="myFunction4()">Employee</a>
+                        <a class="dropdown-item" onclick="myFunction4('Div4')">Employee</a>
                     {% endif %}
                     <a class="dropdown-item" href="{% url 'proofile_page' %}">My Profile</a>
                     <a class="dropdown-item" href="{% url 'logout_user' %}">Logout</a>
