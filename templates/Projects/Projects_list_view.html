@@ -174,7 +174,7 @@
 
 
                                                 {% elif request.user|has_group:"Employee" %}
-                                                    {% if request.user.employee == project.Author %}
+                                                    {% if request.user.employee == project.Author or project.co_author %}
                                                         <!-- Update project buttons -->
                                                         <a type="button" class="update-project  bs-modal dropdown-item "
                                                            href="{% url 'project_update' project.pk %}">

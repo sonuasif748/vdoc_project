@@ -26,14 +26,16 @@ def Employee_Registration(request):
         ef = Employee_form(request.POST, request.FILES)
         if euf.is_valid() and ef.is_valid():
             user = euf.save()
-            user.set_password(user.password)
+            password = User.objects.make_random_password()
+            user.set_password(password)
+            user.is_active = True
+            print(password)
             user.save()
             employee = ef.save(commit=False)
             employee.user = user
             employee.save()
 
             emailid = request.POST.get('email')
-            password = request.POST.get('password')
             subject = 'V-Docs Activation'
             message = f'''Hello Sir/Mam,
             

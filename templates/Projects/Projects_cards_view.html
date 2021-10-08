@@ -58,146 +58,145 @@
                     </div>
                 </div>
             </div>
-                <!-- /Page Header -->
+            <!-- /Page Header -->
 
-                <!-- Search Filter -->
-                <form method="get">
-                    <div class="row filter-row">
-                        <div class="col-sm-6 col-md-3">
-                            <div class="form-group form-focus">
-                                <input type="text" class="form-control floating" name="title" id="id_title">
-                                <label class="focus-label">Project Name </label>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-md-3">
-                            <div class="form-group form-focus">
-                                <input type="text" class="form-control floating" name="project_keywords"
-                                       id="id_project_keywords">
-                                <label class="focus-label">Keywords </label>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-md-3">
-                            <div class="form-group form-focus">
-                                <label class="focus-label">Author </label>
-                                <select class="form-control floating" name="Author" id="id_Author">
-                                    <option value="" selected=""></option>
-                                    {% for i in empdata %}
-                                        <option value="{{ i.id }}">{{ i.user.username }}</option>
-                                    {% endfor %}
-                                </select></div>
-                            <label class="focus-label"></label>
-                        </div>
-                        <div class="col-sm-6 col-md-3">
-                            <input href="" type="submit" class="btn btn-success btn-block"/>
+            <!-- Search Filter -->
+            <form method="get">
+                <div class="row filter-row">
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-group form-focus">
+                            <input type="text" class="form-control floating" name="title" id="id_title">
+                            <label class="focus-label">Project Name </label>
                         </div>
                     </div>
-                </form>
-                <!-- Search Filter -->
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-group form-focus">
+                            <input type="text" class="form-control floating" name="project_keywords"
+                                   id="id_project_keywords">
+                            <label class="focus-label">Keywords </label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-group form-focus">
+                            <label class="focus-label">Author </label>
+                            <select class="form-control floating" name="Author" id="id_Author">
+                                <option value="" selected=""></option>
+                                {% for i in empdata %}
+                                    <option value="{{ i.id }}">{{ i.user.username }}</option>
+                                {% endfor %}
+                            </select></div>
+                        <label class="focus-label"></label>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <input href="" type="submit" class="btn btn-success btn-block"/>
+                    </div>
+                </div>
+            </form>
+            <!-- Search Filter -->
 
-                <div class="row">
-                    {% for project in projects %}
-                        <div class="col-lg-4 col-sm-6 col-md-4 col-xl-3">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="dropdown dropdown-action profile-action">
-                                        <div class="modal custom-modal fade" tabindex="-1" role="dialog" id="modal">
-                                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                                                <div class="modal-content"></div>
-                                            </div>
+            <div class="row">
+                {% for project in projects %}
+                    <div class="col-lg-4 col-sm-6 col-md-4 col-xl-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="dropdown dropdown-action profile-action">
+                                    <div class="modal custom-modal fade" tabindex="-1" role="dialog" id="modal">
+                                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                            <div class="modal-content"></div>
                                         </div>
-                                        <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
-                                           aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            {% if request.user.is_superuser %}
+                                    </div>
+                                    <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
+                                       aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        {% if request.user.is_superuser %}
+                                            <!-- Update project buttons -->
+                                            <a type="button" class="update-project  bs-modal dropdown-item "
+                                               href="{% url 'project_update' project.pk %}">
+                                                <i class="fa fa-pencil m-r-5"></i> Edit</a>
+                                            <!-- Delete project buttons -->
+                                            <a type="button" class="delete-project bs-modal dropdown-item "
+                                               data-toggle="modal"
+                                               data-target="#delete_project">
+                                                <i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                                        {% elif request.user|has_group:"Employee" %}
+                                            {% if request.user.employee == project.Author or project.co_author %}
                                                 <!-- Update project buttons -->
                                                 <a type="button" class="update-project  bs-modal dropdown-item "
                                                    href="{% url 'project_update' project.pk %}">
                                                     <i class="fa fa-pencil m-r-5"></i> Edit</a>
+
                                                 <!-- Delete project buttons -->
                                                 <a type="button" class="delete-project bs-modal dropdown-item "
                                                    data-toggle="modal"
                                                    data-target="#delete_project">
                                                     <i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                                            {% elif request.user|has_group:"Employee" %}
-                                                {% if request.user.employee == project.Author %}
-                                                    <!-- Update project buttons -->
-                                                    <a type="button" class="update-project  bs-modal dropdown-item "
-                                                       href="{% url 'project_update' project.pk %}">
-                                                        <i class="fa fa-pencil m-r-5"></i> Edit</a>
-
-                                                    <!-- Delete project buttons -->
-                                                    <a type="button" class="delete-project bs-modal dropdown-item "
-                                                       data-toggle="modal"
-                                                       data-target="#delete_project">
-                                                        <i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                                                {% else %}
-                                                    <p class="dropdown-item"><span style="color: orangered">You Don't Have Permission To Modify This</span>
-                                                    </p>
-                                                {% endif %}
-
                                             {% else %}
                                                 <p class="dropdown-item"><span style="color: orangered">You Don't Have Permission To Modify This</span>
                                                 </p>
                                             {% endif %}
-                                        </div>
+
+                                        {% else %}
+                                            <p class="dropdown-item"><span style="color: orangered">You Don't Have Permission To Modify This</span>
+                                            </p>
+                                        {% endif %}
                                     </div>
-                                    <h4 class="project-title"><a
-                                            href="{% url 'project_details' project.pk %}">{{ project.title }}</a></h4>
-                                    <p class="text-muted ">{{ project.abstract|truncatechars:20|safe }}</p>
-                                    <div class="pro-deadline m-b-15">
-                                        <div class="sub-title">Start Date :</div>
-                                        <div class="text-muted">{{ project.start_date }}</div>
+                                </div>
+                                <h4 class="project-title"><a
+                                        href="{% url 'project_details' project.pk %}">{{ project.title }}</a></h4>
+                                <p class="text-muted ">{{ project.abstract|truncatechars:20|safe }}</p>
+                                <div class="pro-deadline m-b-15">
+                                    <div class="sub-title">Start Date :</div>
+                                    <div class="text-muted">{{ project.start_date }}</div>
+                                </div>
+                                <div class="pro-deadline m-b-15">
+                                    <div class="sub-title">Completion Date :</div>
+                                    <div class="text-muted">{{ project.completion_date }}</div>
+                                </div>
+                                <div class="project-members m-b-15">
+                                    <div>Project Author :
+                                        <ul class="team-members">
+                                            <li>
+                                                <a href="#" data-toggle="tooltip" title={{ project.Author }}><img
+                                                        alt=""
+                                                        src="{% static 'assets/img/profiles/avatar-1.png' %}"></a>
+                                            </li>
+                                        </ul>
                                     </div>
-                                    <div class="pro-deadline m-b-15">
-                                        <div class="sub-title">Completion Date :</div>
-                                        <div class="text-muted">{{ project.completion_date }}</div>
-                                    </div>
-                                    <div class="project-members m-b-15">
-                                        <div>Project Author :
-                                            <ul class="team-members">
-                                                <li>
-                                                    <a href="#" data-toggle="tooltip" title={{ project.Author }}><img
-                                                            alt=""
-                                                            src="{% static 'assets/img/profiles/avatar-1.png' %}"></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <p class="m-b-5">Progress <span
-                                            class="text-success float-right">{{ project.work_progress }}%</span></p>
-                                    <div class="progress progress-xs mb-0">
-                                        <div class="progress-bar bg-success" role="progressbar" data-toggle="tooltip"
-                                             title="{{ project.work_progress }}%"
-                                             style="width: {{ project.work_progress }}%"></div>
-                                    </div>
+                                </div>
+                                <p class="m-b-5">Progress <span
+                                        class="text-success float-right">{{ project.work_progress }}%</span></p>
+                                <div class="progress progress-xs mb-0">
+                                    <div class="progress-bar bg-success" role="progressbar" data-toggle="tooltip"
+                                         title="{{ project.work_progress }}%"
+                                         style="width: {{ project.work_progress }}%"></div>
                                 </div>
                             </div>
                         </div>
-                        <div class="modal fade" id="delete_project" data-backdrop="static" tabindex="-1"
-                             role="dialog"
-                             aria-labelledby="staticBackdrop" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content" style="width: 800px;right:25%;border-radius: 10px">
-                                    <div class="modal-body">
-                                        <div class="form-header">
-                                            <h3>Delete Project</h3>
-                                            <div class="modal-body">
-                                                <p>Are you sure want to delete project with title
-                                                    <strong>{{ project.title }}</strong>?</p>
-                                            </div>
-                                        </div>
+                    </div>
+                    <div class="modal fade" id="delete_project" data-backdrop="static" tabindex="-1"
+                         role="dialog"
+                         aria-labelledby="staticBackdrop" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content" style="width: 800px;right:25%;border-radius: 10px">
+                                <div class="modal-body">
+                                    <div class="form-header">
+                                        <h3>Delete Project</h3>
                                         <div class="modal-body">
-                                            <div class="modal-btn delete-action">
-                                                <div class="row">
-                                                    <div class="col-6">
-                                                        <a href="{% url 'delete_project' project.id %}"
-                                                           type="button" class="btn btn-primary continue-btn">Delete
-                                                        </a>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <a href="javascript:void(0);" data-dismiss="modal"
-                                                           class="btn btn-primary cancel-btn">Cancel</a>
-                                                    </div>
+                                            <p>Are you sure want to delete project with title
+                                                <strong>{{ project.title }}</strong>?</p>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="modal-btn delete-action">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <a href="{% url 'delete_project' project.id %}"
+                                                       type="button" class="btn btn-primary continue-btn">Delete
+                                                    </a>
+                                                </div>
+                                                <div class="col-6">
+                                                    <a href="javascript:void(0);" data-dismiss="modal"
+                                                       class="btn btn-primary cancel-btn">Cancel</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -205,9 +204,10 @@
                                 </div>
                             </div>
                         </div>
-                    {% endfor %}
-                </div>
+                    </div>
+                {% endfor %}
             </div>
+        </div>
         </div>
         {#Models#}
         {#    Add Project Modal#}
@@ -461,7 +461,7 @@
             });
         </script>
 
-          <script>
+        <script>
             $(document).ready(function () {
                 $('.js-example-basic-multiple').select2();
             });

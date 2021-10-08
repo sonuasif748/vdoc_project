@@ -38,10 +38,6 @@
                            aria-expanded="false"><i class="fa fa-plus"></i>Actions</a>
                         <div class="dropdown-menu dropdown-menu-right">
 
-
-                            {% if request.user.employee in projects.co_author.choices %}
-                                <h1>unna</h1>
-                            {% endif %}
                             {% if request.user.is_superuser %}
                                 <!-- Update project buttons -->
                                 <a type="button" class="update-project  bs-modal dropdown-item "
@@ -53,24 +49,20 @@
                                    data-toggle="modal"
                                    data-form-url="{% url 'delete_project' projects.pk %}">
                                     <i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                            {% elif request.user|has_group:"Employee" %}
-                                {% for i in projects.co_author.choices.values %}
-                                    {% if request.user.employee.user.username in i %}
-                                        <!-- Update project buttons -->
-                                        <a type="button" class="update-project  bs-modal dropdown-item "
-                                           href="{% url 'project_update' projects.pk %}">
-                                            <i class="fa fa-pencil m-r-5"></i> Edit</a>
+                            {% elif request.user.employee == projects.Author or projects.co_author %}
+                                <!-- Update project buttons -->
+                                <a type="button" class="update-project  bs-modal dropdown-item "
+                                   href="{% url 'project_update' projects.pk %}">
+                                    <i class="fa fa-pencil m-r-5"></i> Edit</a>
 
-                                        <!-- Delete project buttons -->
-                                        <a type="button" class="delete-project bs-modal dropdown-item "
-                                           data-toggle="modal"
-                                           data-form-url="{% url 'delete_project' projects.pk %}">
-                                            <i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                                    {% endif %}
-                                {% endfor %}
+                                <!-- Delete project buttons -->
+                                <a type="button" class="delete-project bs-modal dropdown-item "
+                                   data-toggle="modal"
+                                   data-form-url="{% url 'delete_project' projects.pk %}">
+                                    <i class="fa fa-trash-o m-r-5"></i> Delete</a>
                             {% else %}
-                                <p class="dropdown-item"><span style="color: orangered">You Don't Have Permission To Modify This</span>
-                                </p>
+                                <a type="button" class="update-project  bs-modal dropdown-item ">
+                                    You Don't Have Permission To Modify This</a>
                             {% endif %}
 
                         </div>
@@ -204,48 +196,43 @@
                             </div>
                         </div>
                     </div>
-                    {% if request.user.is_superuser %}
-                        <div class="card project-user">
-                            <div class="card-body">
-                                <h6 class="card-title m-b-20">Assigned Co-Author
+
+
+                    <div class="card project-user">
+                        <div class="card-body">
+                            <h6 class="card-title m-b-20">Co-Author
+                                {% if request.user.is_superuser %} or
                                     <button type="button" class="float-right btn btn-primary btn-sm" data-toggle="modal"
                                             data-target="#assign_leader"><i class="fa fa-plus"></i> Add
                                     </button>
-                                </h6>
-                                {% for i in projects.co_author %}
-                                    <ul class="list-box">
-                                        <li>
-                                            <a href="">
-                                                <div class="list-item">
-                                                    <div class="list-left">
+                                {% elif request.user.employee == projects.Author or projects.co_author %}
+                                    <button type="button" class="float-right btn btn-primary btn-sm" data-toggle="modal"
+                                            data-target="#assign_leader"><i class="fa fa-plus"></i> Add
+                                    </button>
+                                {% else %}
+                                {% endif %}
+                            </h6>
+                            {% for i in projects.co_author %}
+                                <ul class="list-box">
+                                    <li>
+                                        <a href="">
+                                            <div class="list-item">
+                                                <div class="list-left">
                                                     <span class="avatar"><img alt=""
                                                                               src="assets/img/profiles/avatar-11.jpg"></span>
-                                                    </div>
-                                                    <div class="list-body">
-                                                        <span class="message-author">{{ i }}</span>
-                                                        <div class="clearfix"></div>
-                                                        <span class="message-content">Co-Author</span>
-                                                    </div>
                                                 </div>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                {% endfor %}
-                            </div>
+                                                <div class="list-body">
+                                                    <span class="message-author">{{ i }}</span>
+                                                    <div class="clearfix"></div>
+                                                    <span class="message-content">Co-Author</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            {% endfor %}
                         </div>
-                    {% elif request.user|has_group:"Employee" %}
-                        <div class="card project-user">
-                            <div class="card-body">
-                                <h6 class="card-title m-b-20">Assigned Co-Author
-                                    <button type="button" class="float-right btn btn-primary btn-sm" data-toggle="modal"
-                                            data-target="#assign_leader"><i class="fa fa-plus"></i> Add
-                                    </button>
-                                </h6>
-                            </div>
-                        </div>
-                    {% else %}
-                    {% endif %}
-
+                    </div>
                 </div>
             </div>
         </div>
@@ -331,7 +318,7 @@
             }
         </script>
 
-          <script>
+        <script>
             $(document).ready(function () {
                 $('.js-example-basic-multiple').select2();
             });
