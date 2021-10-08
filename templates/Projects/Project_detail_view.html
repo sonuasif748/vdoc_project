@@ -124,7 +124,7 @@
                                                     <span class="file-author"><a
                                                             href="#">{{ projects.Author }}</a></span>
                                                     <span
-                                                            class="file-date">{{ projects.start_date }}</span>
+                                                            class="file-date">{{ projects.start_date|date:"M d, Y" }}</span>
                                                     <div class="file-size">{{ i.upload_documents.file.size }} B</div>
                                                 </div>
                                                 <ul class="files-action">
@@ -175,7 +175,7 @@
                                 </tr>
                                 <tr>
                                     <td>StartDate:-</td>
-                                    <td class="text-left text-purple">{{ projects.start_date }}</td>
+                                    <td class="text-left text-purple">{{ projects.start_date|date:"M d, Y" }}</td>
                                 </tr>
                                 <tr>
                                     <td>End Date:-</td>
@@ -201,7 +201,7 @@
                     <div class="card project-user">
                         <div class="card-body">
                             <h6 class="card-title m-b-20">Co-Author
-                                {% if request.user.is_superuser %} or
+                                {% if request.user.is_superuser %}
                                     <button type="button" class="float-right btn btn-primary btn-sm" data-toggle="modal"
                                             data-target="#assign_leader"><i class="fa fa-plus"></i> Add
                                     </button>
@@ -224,7 +224,7 @@
                                                 <div class="list-body">
                                                     <span class="message-author">{{ i }}</span>
                                                     <div class="clearfix"></div>
-                                                    <span class="message-content">Co-Author</span>
+                                                    <span class="message-content">Co-Authors</span>
                                                 </div>
                                             </div>
                                         </a>
@@ -243,7 +243,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Assign Leader to this project</h5>
+                        <h5 class="modal-title">Assign Co-Authors to this project</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -252,19 +252,17 @@
                         <div>
                             <form method="post">
                                 {% csrf_token %}
-                                <div class="col-sm-6">
-                                    <div class="form-group ">
-                                        <label>Co-Author</label>
-                                        <select style="width: 100%"
-                                                class="form-control js-example-basic-multiple"
-                                                name="co_author"
-                                                multiple="multiple">
-                                            {% for i in empdata %}
-                                                <option class="form-cotrol"
-                                                        value="{{ i.user.username }}">{{ i.user.username }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
+                                <div class="input-group m-b-30">
+                                    <label>Co-Authors</label>
+                                    <select style="width: 100%"
+                                            class="form-control search-input js-example-basic-multiple"
+                                            name="co_author"
+                                            multiple="multiple">
+                                        {% for i in empdata %}
+                                            <option class="form-control"
+                                                    value="{{ i.user.username }}">{{ i.user.username }}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
                                 <div class="submit-section">
                                     <button type="submit" class="btn btn-primary submit-btn">Submit</button>
