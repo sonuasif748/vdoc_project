@@ -279,3 +279,18 @@ def dashboard(request):
 def test1(request):
     data = AddprojectModelForm()
     return render(request, 'test.html', {'form': data})
+
+def singlepageapp(request):
+    projects=Projects.objects.all()
+    data = Projects.objects.all()
+    data2 = Project_Images.objects.all()
+    data3 = Project_Files.objects.all()
+    data4 = Employee.objects.all()
+    employee = Employee.objects.all()
+    project_form = AddprojectModelForm()
+    image_form = ProjectImageForm()
+    file_form = ProjectFilesForm()
+    return render(request, 'singlepage/base.html',{'projects':projects,
+                                                   'data': data, 'data2': data2, 'data3': data3,
+                                                   'data4': data4, 'employee':employee,
+                                                   'form': project_form, 'form2': image_form, 'form3': file_form})
