@@ -7950,7 +7950,7 @@ ul.comment-list li ul.children {
 }
 @media only screen and (max-width: 1199.98px) {
 	.page-title-box {
-		display: none;
+		padding-left: 150px;
 	}
 	.file-wrap .file-sidebar {
 		left: -331px;
@@ -8038,7 +8038,7 @@ ul.comment-list li ul.children {
 		display: block;
 	}
 	.page-title-box {
-		display: none;
+		padding-left: 150px;
 	}
 	.sidebar {
 		margin-left: -225px;

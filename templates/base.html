@@ -45,13 +45,10 @@
     <div class="header">
         <!-- Logo -->
         <div class="header-left">
-            <div href="" class="logo">
-
-                <a href="{% url 'projects_list' %}"><img src="{% static 'assets/img/logo.png' %}" width="60"
-                                                         height="40"
-                                                         alt=""></a>
-
-
+            <div href="" class="float-left logo">
+                <a href="{% url 'projects_list' %}">
+                    <img src="{% static 'assets/img/logo.png' %}" width="60" height="40" alt="">
+                </a>
             </div>
         </div>
         <!-- /Logo -->
@@ -63,24 +60,8 @@
         <!-- /Header Title -->
 
         <!-- Header Menu -->
-        <ul class="nav user-menu">
-            {% if user.is_superuser %}
-                <!-- Dashboard -->
-{#                <li class="nav-item dropdown">#}
-{#                    <a href="/dashboard" class="" data-toggle="">#}
-{#                        <i class="fa fa-user-circle-o"></i> <span class="badge badge-pill">Dashboard</span>#}
-{#                    </a>#}
-{#                </li>#}
-                <!-- Dashboard -->
-                <!-- Employees -->
-                <li class="nav-item dropdown">
-                    <a href="{% url 'Employee_list_page' %}" class="" data-toggle="">
-                        <i class="fa fa-user-circle-o"></i> <span class="badge badge-pill">Employee</span>
-                    </a>
-                </li>
-                <!-- /Employees -->
 
-            {% endif %}
+        <ul class="nav user-menu">
             <li class="nav-item dropdown has-arrow main-drop">
                 <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
 							<span class="user-img">
@@ -97,6 +78,9 @@
                                 </span>
                 </a>
                 <div class="dropdown-menu">
+                    {% if user.is_superuser %}
+                        <a class="dropdown-item" href="{% url 'Employee_list_page' %}">Employee</a>
+                    {% endif %}
                     <a class="dropdown-item" href="{% url 'proofile_page' %}">My Profile</a>
                     <a class="dropdown-item" href="{% url 'logout_user' %}">Logout</a>
                 </div>
@@ -109,12 +93,17 @@
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                 <i class="fa fa-ellipsis-v"></i></a>
             <div class="dropdown-menu dropdown-menu-right">
+                {% if user.is_superuser %}
+                    <a class="dropdown-item" href="{% url 'Employee_list_page' %}">Employee</a>
+                {% endif %}
                 <a class="dropdown-item" href="{% url 'proofile_page' %}">My Profile</a>
                 <a class="dropdown-item" href="{% url 'logout_user' %}">Logout</a>
             </div>
         </div>
         <!-- /Mobile Menu -->
     </div>
+
+
     <!-- /Header -->
     <!-- Page Content -->
     <div class="content container-fluid">
