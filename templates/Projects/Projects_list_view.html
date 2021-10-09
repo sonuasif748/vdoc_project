@@ -145,7 +145,7 @@
                                         </ul>
                                         {{ project.Author }}
                                     </td>
-                                    <td>{{ project.start_date }}</td>
+                                    <td>{{ project.start_date|date:"M d, Y" }}</td>
                                     <td>{{ project.completion_date }}</td>
                                     <td>{{ project.status }}</td>
                                     <td class="text-left">

@@ -1,0 +1,138 @@
+{% load static %}
+{% load auth_extras %}
+<div id="Div5" style="display: none;">
+                <div>
+                    <div class="modal-content" style="border-radius: 10px">
+                        <form method="post" action="add_project/" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Create Project</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group ">
+                                                <label>Project Name</label>
+                                                {{ form.title }}
+                                                <text class="text-danger">{{ form.title.errors }}</text>
+                                            </div>
+                                        </div>
+                                        {% if request.user|has_group:"Employee" %}
+                                            <div class="col-sm-6">
+                                                <div class="form-group ">
+                                                    <label>Author </label>
+                                                    <input name="Author" class="form-control"
+                                                           value="{{ request.user.employee.id }}">
+                                                    <text class="text-danger">{{ form.employee.errors }}</text>
+                                                </div>
+                                            </div>
+                                        {% else %}
+                                            <div class="col-sm-6">
+                                                <div class="form-group ">
+                                                    <label>Author </label>
+                                                    {{ form.Author }}
+                                                    <text class="text-danger">{{ form.Author.errors }}</text>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group ">
+                                                <label>Co-Author</label>
+                                                <select style="width: 100%"
+                                                        class="form-control js-example-basic-multiple"
+                                                        name="co_author"
+                                                        multiple="multiple">
+                                                    {% for i in empdata %}
+                                                        <option class="form-cotrol"
+                                                                value="{{ i.user.username }}">{{ i.user.username }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group ">
+                                                <label>Mentor</label>
+                                                {{ form.mentor }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group ">
+                                        <label>Abstract</label>
+                                        {{ form.abstract }}
+                                        <text class="text-danger">{{ form.abstract.errors }}</text>
+                                    </div>
+
+                                    <div class="form-group ">
+                                        <label>Keywords</label>
+                                        {{ form.project_keywords }}
+                                        <text class="text-danger">{{ form.project_keywords.errors }}</text>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group  invalid ">
+
+                                                <label>Start Date</label>
+                                                <div class="cal-icon">
+                                                    {{ form.start_date }}
+                                                    <text class="text-danger">{{ form.start_date.errors }}</text>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group ">
+                                                <label>End Date</label>
+                                                <div class="cal-icon">
+                                                    {{ form.completion_date }}
+                                                    <text class="text-danger">{{ form.completion_date.errors }}</text>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group ">
+                                                <label>Status</label>
+                                                {{ form.status }}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group ">
+                                                <label>Work Progress</label>
+                                                {{ form.work_progress }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row file-form">
+                                        <div class="col-sm-6">
+                                            <div class="form-group ">
+                                                <label>Images</label>
+                                                {{ form2.project_images }}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group ">
+                                                <label>Upload Documents</label>
+                                                {{ form3.upload_documents }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="submit-section">
+                                        <button type="submit" class="btn btn-primary submit-btn">Create</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>

@@ -81,7 +81,7 @@
                             <label class="focus-label">Author </label>
                             <select class="form-control floating" name="Author" id="id_Author">
                                 <option value="" selected=""></option>
-                                {% for i in empdata %}
+                                {% for i in data4 %}
                                     <option value="{{ i.id }}">{{ i.user.username }}</option>
                                 {% endfor %}
                             </select></div>

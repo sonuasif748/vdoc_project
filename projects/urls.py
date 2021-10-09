@@ -20,7 +20,7 @@ urlpatterns = [
     path('deletefile/<int:id>/',DeleteFileView, name='deletefile'),
     path('',dashboard, name='dashboard'),
 
-    path('singlepage',singlepageapp,name='singlepage')
+    path('singlepage',singlepageapp,name='singlepage'),
 ]
 
 if settings.DEBUG:

@@ -290,7 +290,9 @@ def singlepageapp(request):
     project_form = AddprojectModelForm()
     image_form = ProjectImageForm()
     file_form = ProjectFilesForm()
+    filter = Filterss(request.GET, queryset = data)
     return render(request, 'singlepage/base.html',{'projects':projects,
                                                    'data': data, 'data2': data2, 'data3': data3,
                                                    'data4': data4, 'employee':employee,
-                                                   'form': project_form, 'form2': image_form, 'form3': file_form})
+                                                   'form': project_form, 'form2': image_form, 'form3': file_form,
+                                                   'filter':filter})
