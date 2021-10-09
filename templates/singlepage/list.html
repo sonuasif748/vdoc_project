@@ -1,41 +1,10 @@
 {% load static %}
 {% load auth_extras %}
 <div id="Div1">
-    <form method="get">
-        <div class="row filter-row">
-            <div class="col-sm-6 col-md-3">
-                <div class="form-group form-focus">
-                    <input type="text" class="form-control floating" name="title" id="id_title">
-                    <label class="focus-label">Project Name </label>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-3">
-                <div class="form-group form-focus">
-                    <input type="text" class="form-control floating" name="project_keywords"
-                           id="id_project_keywords">
-                    <label class="focus-label">Keywords </label>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-3">
-                <div class="form-group form-focus">
-                    <label class="focus-label">Author </label>
-                    <select class="form-control floating" name="Author" id="id_Author">
-                        <option value="" selected=""></option>
-                        {% for i in data4 %}
-                            <option value="{{ i.id }}">{{ i.user.username }}</option>
-                        {% endfor %}
-                    </select></div>
-                <label class="focus-label"></label>
-            </div>
-            <div class="col-sm-6 col-md-3">
-                <input href="" type="submit" class="btn btn-success btn-block"/>
-            </div>
-        </div>
-    </form>
     <div class="row">
         <div class="col-md-12">
             <div class="table-responsive">
-                <table class="table table-striped custom-table datatable mb-0 datatable">
+                <table id="example" class="table table-striped custom-table">
                     <thead>
                     <tr>
                         <th>S No</th>
@@ -158,9 +127,9 @@
                         </div>
                     {% endfor %}
                     </tbody>
-
                 </table>
             </div>
         </div>
     </div>
 </div>
+
