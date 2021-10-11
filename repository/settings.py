@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+import cloudinary_storage
 
 
 
@@ -48,6 +49,8 @@ INSTALLED_APPS = [
     'django_filters',
     'multiselectfield',
     'widget_tweaks',
+    'cloudinary_storage',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -167,18 +170,26 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Media files in google cloud
-from google.oauth2 import service_account
-GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-    os.path.join(BASE_DIR,'credential.json')
-)
+# from google.oauth2 import service_account
+# GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+#     os.path.join(BASE_DIR,'credential.json')
+# )
+# ###configuration for media file storing and reriving media file from gcloud
+# DEFAULT_FILE_STORAGE = 'repository.gcloud.GoogleCloudMediaFileStorage'
+# GS_PROJECT_ID = 'magnetic-runway-328306'
+# GS_BUCKET_NAME = 'vdocproject'
+# MEDIA_ROOT = "media/"
+# UPLOAD_ROOT = 'media/uploads/'
+# MEDIA_URL = 'https://storage.cloud.google.com/{}/'.format(GS_BUCKET_NAME)
 
-###configuration for media file storing and reriving media file from gcloud
-DEFAULT_FILE_STORAGE = 'repository.gcloud.GoogleCloudMediaFileStorage'
-GS_PROJECT_ID = 'magnetic-runway-328306'
-GS_BUCKET_NAME = 'vdocproject'
-MEDIA_ROOT = "media/"
-UPLOAD_ROOT = 'media/uploads/'
-MEDIA_URL = 'https://storage.cloud.google.com/{}/'.format(GS_BUCKET_NAME)
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dceqp03kf',
+    'API_KEY': '944187272984643',
+    'API_SECRET': 'eppjWmFDxWjHc9XR0BzMiCZBbR8'
+}
+MEDIA_URL = '/media/'  # or any prefix you choose
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 
 
 # Default primary key field type

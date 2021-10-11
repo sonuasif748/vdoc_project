@@ -1,0 +1,181 @@
+{% load static %}
+{% load auth_extras %}
+<div id="Div6" style="display: none;">
+    <div class="modal-content container mt-4 mb-3" style="border-radius: 10px;">
+        <form method="post" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="modal-body">
+                    <button href="/Homepage" class="close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 style="text-align: center" class="modal-title">Update Project</h3>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group ">
+                                <label>Project Name</label>
+{#                                {{ form.title }}#}
+{#                                <text class="text-danger">{{ form.title.errors }}</text>#}
+                            </div>
+                        </div>
+                        {% if request.user|has_group:"Employee" %}
+                            <div class="col-sm-6">
+                                <div class="form-group ">
+                                    <label>Author </label>
+{#                                    <input name="Author" class="form-control"#}
+{#                                           value="{{ request.user.employee.id }}">#}
+{#                                    <text class="text-danger">{{ form.Author.errors }}</text>#}
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="col-sm-6">
+                                <div class="form-group ">
+                                    <label>Author </label>
+{#                                    {{ form.Author }}#}
+{#                                    <text class="text-danger">{{ form.author.errors }}</text>#}
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group ">
+                                <label>Co-Author</label>
+                                <select style="width: 100%"
+                                        class="form-control js-example-basic-multiple"
+                                        name="co_author"
+                                        multiple="multiple">
+{#                                    {% for i in empdata %}#}
+{#                                        <option class="form-cotrol"#}
+{#                                                value="{{ i.user.username }}">{{ i.user.username }}</option>#}
+{#                                    {% endfor %}#}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group ">
+                                <label>Mentor</label>
+{#                                {{ form.mentor }}#}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group ">
+                        <label>Abstract</label>
+{#                        {{ form.abstract }}#}
+{#                        <text class="text-danger">{{ form.abstract.errors }}</text>#}
+                    </div>
+
+                    <div class="form-group ">
+                        <label>Keywords</label>
+{#                        {{ form.project_keywords }}#}
+{#                        <text class="text-danger">{{ form.project_keywords.errors }}</text>#}
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group  invalid ">
+
+                                <label>Start Date</label>
+                                <div class="cal-icon">
+{#                                    {{ form.start_date }}#}
+{#                                    <text class="text-danger">{{ form.start_date.errors }}</text>#}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group ">
+                                <label>End Date</label>
+                                <div class="cal-icon">
+{#                                    {{ form.completion_date }}#}
+{#                                    <text class="text-danger">{{ form.completion_date.errors }}</text>#}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group ">
+                                <label>Status</label>
+{#                                {{ form.status }}#}
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group ">
+                                <label>Work Progress</label>
+{#                                {{ form.work_progress }}#}
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <table class="table table-striped col-sm-6"
+                               style="width:100%">
+                            <tr>
+                                <th>SNO</th>
+                                <th>Images</th>
+                                <th>Action</th>
+                            </tr>
+{#                            {% for i in form2 %}#}
+{#                                <tr>#}
+{#                                    <td>{{ forloop.counter }}</td>#}
+{#                                    <td>{{ i.project_images|truncatechars:45|slice:"19:" }}</td>#}
+{#                                    <td><a href="{% url 'deleteimage' i.id %}">Remove</a></td>#}
+{#                                </tr>#}
+{#                            {% endfor %}#}
+                        </table>
+
+                        <table class="table table-striped col-sm-6"
+                               style="width:100%">
+                            <tr>
+                                <th>SNO</th>
+                                <th>Documents</th>
+                                <th>Action</th>
+                            </tr>
+{#                            {% for j in form3 %}#}
+{#                                <tr>#}
+{#                                    <td>{{ forloop.counter }}</td>#}
+{#                                    <td>{{ j.upload_documents|truncatechars:45|slice:"18:" }}</td>#}
+{#                                    <td><a href="{% url 'deletefile' j.id %}">Remove</a></td>#}
+{#                                </tr>#}
+{#                            {% endfor %}#}
+                        </table>
+                    </div>
+                    <br>
+
+                    <div class="row file-form">
+{#                        {% for i in addimg %}#}
+{#                            <div class="col-sm-6">#}
+{#                                <div class="form-group">#}
+{#                                    <label>Images</label>#}
+{#                                    {{ i }}#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        {% endfor %}#}
+{#                        {% for i in addfile %}#}
+{#                            <div class="col-sm-6">#}
+{#                                <div class="form-group">#}
+{#                                    <label>Upload Documents</label>#}
+{#                                    {{ i }}#}
+{#                                </div>#}
+{#                                <br>#}
+{#                            </div>#}
+{#                        {% endfor %}#}
+                    </div>
+
+                    <div style="justify-content: center" class="row">
+                        <span><button href="/Homepage" class="btn btn-primary submit-btn">Back</button></span>
+                        <span><button type="submit" class="btn btn-primary submit-btn">Update</button></span>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

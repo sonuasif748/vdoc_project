@@ -1,0 +1,273 @@
+{% load static %}
+{% load auth_extras %}
+<div id="Div7" style="display: none;">
+    <div class="content container-fluid">
+        <!-- Page Header -->
+        <div class="page-header">
+
+
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">{{ projects.title }}</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Project</li>
+                    </ul>
+                </div>
+                {#                    <div class="col-auto float-right ml-auto">#}
+                {#                        <a href="{% url 'project_update' projects.id %}" class="btn add-btn bs-modal" id="add-project"#}
+                {#                           data-toggle="modal"#}
+                {#                           data-target="#create_project"><i#}
+                {#                                class="fa fa-plus"></i> Edit Project</a>#}
+                {#                        #}
+                {#                        #}
+                {#                    </div>#}
+                <div class="dropdown dropdown-action">
+                    <div class="modal custom-modal fade" tabindex="-1" role="dialog" id="modal">
+                        <div class="modal-dialog modal-dialog-centered modal-lg"
+                             role="document">
+                            <div class="modal-content"></div>
+                        </div>
+                    </div>
+                    <a href="#" class="btn add-btn bs-modal action-icon dropdown-toggle" style="color: #fff"
+                       data-toggle="dropdown"
+                       aria-expanded="false"><i class="fa fa-plus"></i>Actions</a>
+                    <div class="dropdown-menu dropdown-menu-right">
+
+                        {% if request.user.is_superuser %}
+                            <!-- Update project buttons -->
+                            <a type="button" class="update-project  bs-modal dropdown-item "
+                               href="{% url 'project_update' projects.pk %}">
+                                <i class="fa fa-pencil m-r-5"></i> Edit</a>
+
+                            <!-- Delete project buttons -->
+                            <a type="button" class="delete-project bs-modal dropdown-item "
+                               data-toggle="modal"
+                               data-form-url="{% url 'delete_project' projects.pk %}">
+                                <i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                        {% elif request.user.employee == projects.Author or projects.co_author %}
+                            <!-- Update project buttons -->
+                            <a type="button" class="update-project  bs-modal dropdown-item "
+                               href="{% url 'project_update' projects.pk %}">
+                                <i class="fa fa-pencil m-r-5"></i> Edit</a>
+
+                            <!-- Delete project buttons -->
+                            <a type="button" class="delete-project bs-modal dropdown-item "
+                               data-toggle="modal"
+                               data-form-url="{% url 'delete_project' projects.pk %}">
+                                <i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                        {% else %}
+                            <a type="button" class="update-project  bs-modal dropdown-item ">
+                                You Don't Have Permission To Modify This</a>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+
+        <div class="row">
+            <div class="col-lg-8 col-xl-9">
+                <!---abstract--->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="project-title">
+                            <h5 class="card-title">Abstract :</h5>
+                        </div>
+                        {{ projects.abstract|safe }}
+                    </div>
+                </div>
+                <!---/abstract--->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title m-b-20">Uploaded image files</h5>
+                        <div class="row">
+                            {% for i in form2 %}
+                                {% if i.project_images %}
+
+                                    <div class="col-md-3 col-sm-4 col-lg-4 col-xl-3">
+                                        <div class="uploaded-box">
+                                            <div class="uploaded-img">
+                                                <img src="{{ i.project_images.url }}" class="img-fluid" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <h4 class="col-md-3 col-sm-4 col-lg-4">There is no images here....!</h4>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title m-b-20">Uploaded files</h5>
+                        <ul class="files-list">
+                            {% for i in form3 %}
+                                {% if i.upload_documents %}
+                                    <li>
+                                        <div class="files-cont">
+                                            <div class="file-type">
+                                                {#                                                    {{ i.cover }}#}
+                                                <span class="files-icon"><img src=""
+                                                                              style="width: 100%"
+                                                                              class="fa fa-file-pdf-o"></span>
+                                            </div>
+                                            <div class="files-info">
+                                                <span class="file-name text-ellipsis"><a target="_blank"
+                                                                                         href="{{ i.upload_documents.url }}">{{ i.upload_documents }}</a></span>
+                                                <span class="file-author"><a
+                                                        href="#">{{ projects.Author }}</a></span>
+                                                <span
+                                                        class="file-date">{{ projects.start_date|date:"M d, Y" }}</span>
+                                                <div class="file-size">{{ i.upload_documents.file.size }} B</div>
+                                            </div>
+                                            <ul class="files-action">
+                                                <li class="dropdown dropdown-action">
+                                                    <a href="" class="dropdown-toggle btn btn-link"
+                                                       data-toggle="dropdown"
+                                                       aria-expanded="false"><i
+                                                            class="material-icons">more_horiz</i></a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a class="dropdown-item" target="_blank"
+                                                           href="{{ i.upload_documents }}">Download</a>
+                                                        <a class="dropdown-item" href="#" data-toggle="modal"
+                                                           data-target="#share_files">Share</a>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                {% else %}
+                                    <li>
+                                        <h4>There is no documents here....!</h4>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-4 col-xl-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title m-b-15">Project details</h6>
+                        <table class="table table-striped table-border">
+                            <tbody>
+                            <tr>
+                                <td>Author:-</td>
+                                <td class="text-left text-purple">{{ projects.Author }}</td>
+                            </tr>
+                            <tr>
+                                <td>Co-Authors:-</td>
+                                <td class="text-left text-purple">{{ projects.co_author }}</td>
+                            </tr>
+                            <tr>
+                                <td>Mentor:-</td>
+                                <td class="text-left text-purple">{{ projects.mentor }}</td>
+                            </tr>
+                            <tr>
+                                <td>StartDate:-</td>
+                                <td class="text-left text-purple">{{ projects.start_date|date:"M d, Y" }}</td>
+                            </tr>
+                            <tr>
+                                <td>End Date:-</td>
+                                <td class="text-left text-purple">{{ projects.completion_date }}</td>
+                            </tr>
+                            <tr>
+                                <td>Status:-</td>
+                                <td class="text-left text-purple">{{ projects.status }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <p class="m-b-5">Progress <span
+                                class="text-success float-right">{{ projects.work_progress }}%</span></p>
+                        <div class="progress progress-xs mb-0">
+                            <div class="progress-bar bg-success" role="progressbar" data-toggle="tooltip"
+                                 title="{{ projects.work_progress }}%"
+                                 style="width: {{ projects.work_progress }}%"></div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card project-user">
+                    <div class="card-body">
+                        <h6 class="card-title m-b-20">Co-Author
+                            {% if request.user.is_superuser %}
+                                <button type="button" class="float-right btn btn-primary btn-sm" data-toggle="modal"
+                                        data-target="#assign_leader"><i class="fa fa-plus"></i> Add
+                                </button>
+                            {% elif request.user.employee == projects.Author or projects.co_author %}
+                                <button type="button" class="float-right btn btn-primary btn-sm" data-toggle="modal"
+                                        data-target="#assign_leader"><i class="fa fa-plus"></i> Add
+                                </button>
+                            {% else %}
+                            {% endif %}
+                        </h6>
+                        {% for i in projects.co_author %}
+                            <ul class="list-box">
+                                <li>
+                                    <a href="">
+                                        <div class="list-item">
+                                            <div class="list-left">
+                                                    <span class="avatar"><img alt=""
+                                                                              src="assets/img/profiles/avatar-11.jpg"></span>
+                                            </div>
+                                            <div class="list-body">
+                                                <span class="message-author">{{ i }}</span>
+                                                <div class="clearfix"></div>
+                                                <span class="message-content">Co-Authors</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Page Content -->
+    <!-- Assign Leader Modal -->
+    <div id="assign_leader" class="modal custom-modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Assign Co-Authors to this project</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="input-group m-b-30">
+                                <label>Co-Authors</label>
+                                <select style="width: 100%"
+                                        class="form-control search-input js-example-basic-multiple"
+                                        name="co_author"
+                                        multiple="multiple">
+                                    {% for i in empdata %}
+                                        <option class="form-control"
+                                                value="{{ i.user.username }}">{{ i.user.username }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="submit-section">
+                                <button type="submit" class="btn btn-primary submit-btn">Submit</button>
+                            </div>
+                        </form>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Assign Leader Modal -->
+</div>
