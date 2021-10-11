@@ -68,7 +68,7 @@
                 </a>
                 <div class="dropdown-menu">
                     {% if user.is_superuser %}
-                        <a class="dropdown-item" href="" onclick="divVisibility('Div4')">Employee</a>
+                        <a class="dropdown-item" href="#/Employee_list" onclick="divVisibility('Div4')">Employee</a>
                     {% endif %}
                     <a class="dropdown-item" href="{% url 'proofile_page' %}">My Profile</a>
                     <a class="dropdown-item" href="{% url 'logout_user' %}">Logout</a>
@@ -83,7 +83,7 @@
                 <i class="fa fa-ellipsis-v"></i></a>
             <div class="dropdown-menu dropdown-menu-right">
                 {% if user.is_superuser %}
-                    <a class="dropdown-item" href="" onclick="divVisibility('Div4')">Employee</a>
+                    <a class="dropdown-item" href="#/Employee_list" onclick="divVisibility('Div4')">Employee</a>
                 {% endif %}
                 <a class="dropdown-item" href="{% url 'proofile_page' %}">My Profile</a>
                 <a class="dropdown-item" href="{% url 'logout_user' %}">Logout</a>
@@ -103,16 +103,16 @@
                     <div class="col">
                         <h3 class="page-title">Projects</h3>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="" onclick="divVisibility('Div3')"
+                            <li class="breadcrumb-item"><a href="#/dashboard" onclick="divVisibility('Div3')"
                                                            class="btn-link">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item active">Projects</li>
                         </ul>
                     </div>
                     <div class="col-auto float-right ml-auto">
-                        <button type="button" class="btn add-btn" onclick="divVisibility('Div5')">
+                        <a href="#/create_project" type="button" class="btn add-btn" onclick="divVisibility('Div5')">
                             <i class="fa fa-plus"></i> Create Project
-                        </button>
+                        </a>
 
                         <div class="modal bs-modal custom-modal fade" tabindex="-1" role="dialog" id="add-modal">
                             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -121,9 +121,9 @@
                         </div>
 
                         <div class="view-icons">
-                            <a onclick="divVisibility('Div2')" class="grid-view btn btn-link"><i
+                            <a href="#/card_view" onclick="divVisibility('Div2')" class="grid-view btn btn-link"><i
                                     class="fa fa-th"></i></a>
-                            <a onclick="divVisibility('Div1')" class="list-view btn btn-link"><i
+                            <a href="#/list_view" onclick="divVisibility('Div1')" class="list-view btn btn-link"><i
                                     class="fa fa-bars"></i></a>
                         </div>
                     </div>

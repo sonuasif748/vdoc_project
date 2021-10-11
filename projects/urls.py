@@ -9,11 +9,13 @@ from .views import *
 
 urlpatterns = [
     path('register_request',register_request, name='homepage'),
-    path('Homepage', login_required(Projects_list_view.as_view()), name='projects_list'),
+    path('homepage', login_required(Projects_list_view.as_view()), name='projects_list'),
     path('projects_cards', login_required(Projects_Card_View.as_view()), name='projects_cards'),
     path('add_project/', Add_Project_View, name='add_project'),
     path('project_update/<int:id>/', ProjectUpdateView, name='project_update'),
     path('delete_project/<int:id>/', ProjectDeleteView, name='delete_project'),
+    path('employee_update/<int:id>/', EmployeeUpdateView, name='employee_update'),
+    path('delete_employee/<int:id>/', EmployeeDeleteView, name='delete_employee'),
     path('project_details/<int:id>/',ProjectDetailView, name='project_details'),
     path('test/',test1, name='test'),
     path('deleteimage/<int:id>/',DeleteImageView, name='deleteimage'),

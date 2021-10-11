@@ -252,6 +252,27 @@ def ProjectDeleteView(request, id):
     dlp.delete()
     return redirect(request.META['HTTP_REFERER'])
 
+@login_required(login_url='login_page')
+def EmployeeUpdateView(request, id):
+    data = Employee.objects.get(pk=id)
+    employeeuserform = Employee_user_form(instance=data.user)
+    employeeform = Employee_form(instance=data)
+    mydict = {'form': employeeuserform, 'form2': employeeform}
+    if request.method == "POST":
+        user = Employee_user_form(request.POST, instance=data.user)
+        emp = Employee_form(request.POST, instance=data)
+        if user.is_valid() and emp.is_valid():
+            user.save()
+            emp.save()
+            return redirect('/Employee_list_page')
+    return render(request, 'users/Employee/update_employee.html',context=mydict)
+
+@login_required(login_url='login_page')
+def EmployeeDeleteView(request, id):
+    dlp = User.objects.get(pk=id)
+    dlp.delete()
+    return redirect(request.META['HTTP_REFERER'])
+
 
 @login_required(login_url='login_page')
 def DeleteImageView(request, id):
